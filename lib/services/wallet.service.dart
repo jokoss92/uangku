@@ -11,6 +11,27 @@ class WalletService {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  Future<int> update(Wallet wallet) async {
+    final Database db = await Wallet.getInstance();
+
+    return await db.update(
+      _tableName,
+      wallet.toMap(), 
+      where: "id = ?",
+      whereArgs: [wallet.id]
+    );
+  }
+
+  Future<int> delete(int id) async {
+    final Database db = await Wallet.getInstance();
+
+    return await db.delete(
+      _tableName,
+      where: "id = ?",
+      whereArgs: [id]
+    );
+  }
+
   Future<List<Wallet>> getLists() async {
     final Database db = await Wallet.getInstance();
     final List<Map<String, dynamic>> maps = await db.query(_tableName);

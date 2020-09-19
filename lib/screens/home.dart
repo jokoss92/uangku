@@ -26,9 +26,7 @@ class _HomeState extends State<Home> {
 
   Future<Wallet> navigateToEntryForm(context, Wallet wallet) async {
     return await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => InputWallet(wallet))
-    );
+        context, MaterialPageRoute(builder: (context) => InputWallet(wallet)));
   }
 
   Card getCard(Wallet wallet) {
@@ -42,6 +40,25 @@ class _HomeState extends State<Home> {
         ),
         title: Text(wallet.name),
         subtitle: Text(wallet.value.toString()),
+        trailing: GestureDetector(
+          child: Icon(Icons.delete),
+          onTap: () async {
+            int result = await _walletService.delete(wallet.id);
+            if (result > 0) {
+              updateList();
+            }
+          },
+        ),
+        onTap: () async {
+          Wallet walletUpdate = await navigateToEntryForm(context, wallet);
+
+          if (walletUpdate != null) {
+            int result = await _walletService.insert(walletUpdate);
+            if (result > 0) {
+              updateList();
+            }
+          }
+        },
       ),
     );
   }

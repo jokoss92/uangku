@@ -19,6 +19,10 @@ class _InputWalletState extends State<InputWallet> {
   TextEditingController valueController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    if (_wallet != null) {
+      nameController.text = _wallet.name;
+      valueController.text = _wallet.value.toString();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(_wallet == null ? 'Input Wallet' : 'Update Wallet'),
